@@ -20,6 +20,4 @@
     <color name="Surface">#f9f9ff</color>
     <color name="SurfaceBright">#f9f9ff</color>
     <color name="InverseSurface">#2e3036</color>
-
-    <color name="background_component_selected">#FF111328</color>
 </resources>

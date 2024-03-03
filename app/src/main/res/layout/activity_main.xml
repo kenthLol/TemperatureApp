@@ -8,13 +8,13 @@
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_celsius"
+        android:id="@+id/card_view_celsius_to_farenheit"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginEnd="15dp"
-        android:backgroundTint="@color/SecondaryContainer"
+        app:cardBackgroundColor="@color/SecondaryContainer"
         app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/card_view_farenheit"
+        app:layout_constraintEnd_toStartOf="@+id/card_view_farenheit_to_celsius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,13 +42,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_farenheit"
+        android:id="@+id/card_view_farenheit_to_celsius"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:backgroundTint="@color/SecondaryContainer"
+        app:cardBackgroundColor="@color/SecondaryContainer"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/card_view_celsius"
+        app:layout_constraintStart_toEndOf="@+id/card_view_celsius_to_farenheit"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -81,7 +81,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_celsius">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_celsius_to_farenheit">
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,7 +101,6 @@
         app:layout_constraintTop_toBottomOf="@+id/label">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_field"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,6 +108,7 @@
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -139,7 +139,7 @@
         android:id="@+id/convert_button"
         android:layout_width="0dp"
         android:layout_height="85dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:text="Convertir"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
