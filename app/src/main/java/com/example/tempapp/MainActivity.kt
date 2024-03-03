@@ -9,16 +9,17 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.textfield.TextInputEditText
 import androidx.core.content.ContextCompat
 import java.text.DecimalFormat
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity()
 {
-    private var isCelsiusToFarenheitSelected:Boolean = false
-    private var isFarenheitToCelsiusSelected:Boolean = false
+    private var isCelsiusToFarenheitSelected: Boolean = false
+    private var isFarenheitToCelsiusSelected: Boolean = false
 
     private lateinit var cardViewCelsiusToFarenheit: CardView
     private lateinit var cardViewFarenheitToCelsius: CardView
-    private lateinit var textField:TextInputEditText
-    private lateinit var resultTextView:TextView
+    private lateinit var textField: TextInputEditText
+    private lateinit var resultTextView: TextView
 
     private lateinit var convertButton: Button
     override fun onCreate(savedInstanceState: Bundle?)
@@ -49,12 +50,38 @@ class MainActivity : AppCompatActivity()
         }
 
         convertButton.setOnClickListener {
-            val temperature = textField.text.toString()
-            val result = if(isCelsiusToFarenheitSelected)
+            val temperatureString = textField.text.toString()
+            var temperature: Double = 0.0
+
+            try
+            {
+                temperature = temperatureString.toDouble()
+            } catch (e: NumberFormatException)
+            {
+                // El texto ingresado no es un número entero válido
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Por favor, ingrese un número válido.")
+                    .setPositiveButton("OK", null)
+                    .show()
+                return@setOnClickListener
+            }
+
+            if (!isCelsiusToFarenheitSelected && !isFarenheitToCelsiusSelected)
+            {
+                // No se ha seleccionado ninguna temperatura
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Por favor, seleccione una temperatura para convertir.")
+                    .setPositiveButton("OK", null)
+                    .show()
+                return@setOnClickListener
+            }
+
+            val result = if (isCelsiusToFarenheitSelected)
             {
                 CelsiusToFarenheit(temperature)
-            }
-            else
+            } else
             {
                 FarenheitToCelsius(temperature)
             }
@@ -64,20 +91,20 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun FarenheitToCelsius(temperature: String): String
+    private fun FarenheitToCelsius(temperature: Double): String
     {
         val decimalFormat = DecimalFormat("#.##")
-        val farenheit = temperature.toDouble()
-        val celsius = (farenheit - 32) * 5/9
+        val farenheit = temperature
+        val celsius = (farenheit - 32) * 5 / 9
 
         return "${farenheit} grados °F son ${decimalFormat.format(celsius)} °C"
     }
 
-    private fun CelsiusToFarenheit(temperature: String): String
+    private fun CelsiusToFarenheit(temperature: Double): String
     {
         val decimalFormat = DecimalFormat("#.##")
-        val celsius = temperature.toDouble()
-        val farenheit = (celsius * 9/5) + 32
+        val celsius = temperature
+        val farenheit = (celsius * 9 / 5) + 32
 
         return "${celsius} grados °C son ${decimalFormat.format(farenheit)} °F"
     }
@@ -93,12 +120,11 @@ class MainActivity : AppCompatActivity()
 
     private fun changeTemperature()
     {
-        if(cardViewCelsiusToFarenheit.isPressed)
+        if (cardViewCelsiusToFarenheit.isPressed)
         {
             isCelsiusToFarenheitSelected = true
             isFarenheitToCelsiusSelected = false
-        }
-        else
+        } else
         {
             isCelsiusToFarenheitSelected = false
             isFarenheitToCelsiusSelected = true
@@ -107,17 +133,24 @@ class MainActivity : AppCompatActivity()
 
     private fun setTemperatureColor()
     {
-        cardViewCelsiusToFarenheit.setCardBackgroundColor(getBackgroundColor(isCelsiusToFarenheitSelected))
-        cardViewFarenheitToCelsius.setCardBackgroundColor(getBackgroundColor(isFarenheitToCelsiusSelected))
+        cardViewCelsiusToFarenheit.setCardBackgroundColor(
+            getBackgroundColor(
+                isCelsiusToFarenheitSelected
+            )
+        )
+        cardViewFarenheitToCelsius.setCardBackgroundColor(
+            getBackgroundColor(
+                isFarenheitToCelsiusSelected
+            )
+        )
     }
 
-    private fun getBackgroundColor(isSelectedComponent:Boolean) : Int
+    private fun getBackgroundColor(isSelectedComponent: Boolean): Int
     {
-        var colorReference = if(isSelectedComponent)
+        var colorReference = if (isSelectedComponent)
         {
             R.color.TertiaryContainer
-        }
-        else
+        } else
         {
             R.color.SecondaryContainer
         }
